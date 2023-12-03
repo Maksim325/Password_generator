@@ -10,9 +10,18 @@ def generate_password(length=8):
     return password
 
 def home(response):
-    length = response.POST['length']
+    try:
+        password_length = response.POST['length']
+    except:
+        password_length = 8
+        password = generate_password(int(password_length))
+        return render(response, 'generator/home.html' ,context={'password':password})
+    password_length = response.POST['length']
+
     print(response.POST)
-    if length == '':
-        length = 8
-    password = generate_password(int(length))
+    if password_length == '' :
+        password_length = 8
+    password = generate_password(int(password_length))
     return render(response, 'generator/home.html' ,context={'password':password})
+def about(response):
+    return render(response,'generator/about.html')
